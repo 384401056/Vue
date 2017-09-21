@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/jquery-1.9.1.min.js"></script>
+    <script src="../js/vue.js"></script>
+    <script src="http://cdn.bootcss.com/vue-resource/1.3.4/vue-resource.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+</head>
+<style>
+    .class1{
+        background: #f49e1b;
+        color: #ffffff;
+    }
+    .class2{
+        background: #39e527;
+        color: #ffffff;
+    }
+</style>
+<body style="margin: 30px">
+    <div id="app1">
+        <div class="panel panel-default">
+
+            <div class="panel-body">
+                {{ message }}
+            </div>
+
+            <div class="panel-body" v-html = " message "></div>
+        </div>
+    </div>
+
+    <!--表达式-->
+    <div class="panel panel-default">
+        <div id="app2" class="panel-body">
+            {{(5+5)/2 * 33}}<br>
+            {{ ok ? 'YES' : 'NO' }}<br>
+            {{ message.split('').reverse().join('') }}
+            <div v-bind:id="'list-' + id">菜鸟教程</div>
+        </div>
+    </div>
+
+    <!--指令， v-if 指令将根据表达式 seen 的值(true 或 false )来决定是否插入 p 元素。-->
+    <div class="panel panel-default">
+        <div id="app3" class="panel-body">
+            <p v-if = "seen">如果为true,你就看到我了。</p>
+        </div>
+    </div>
+
+
+    <!--参数-->
+    <div class="panel panel-default">
+        <div id="app4" class="panel-body">
+            <pre><a v-bind:class = "clazz" href="#">这是一个链接.....</a></pre>
+            <!--v-bind可以省略-->
+            <pre><a :href="url">这是一个百度的链接</a></pre>
+        </div>
+    </div>
+
+    <!--用户输入-->
+    <div class="panel panel-default">
+        <div id="app5" class="panel-body">
+                <p>{{ message }}</p>
+                <input v-model="message">
+        </div>
+    </div>
+
+
+    <!--点击事件-->
+    <div class="panel panel-default">
+        <div id="app6" class="panel-body">
+            <p>{{ message }}</p>
+            <button v-on:click="reverseMessage">反转字符串</button>
+            <button @click="changeMessage">改变字符</button>
+        </div>
+    </div>
+
+    <!--过滤器-->
+    <div class="panel panel-default">
+        <div id="app7" class="panel-body">
+            {{ message | capitalize }}
+        </div>
+    </div>
+
+
+    <!--条件判断-->
+    <div class="panel panel-default">
+        <div id="app8" class="panel-body">
+            <div v-if = "isShow">
+                <pre><span style="color: #39e527">如果为True</span></pre>
+            </div>
+            <div v-else >
+                <pre><span style="color: #f49e1b">否则</span></pre>
+            </div>
+        </div>
+    </div>
+
+    <!--是否显示-->
+    <div class="panel panel-default">
+        <div id="app9" class="panel-body">
+            <div v-show="ok" >
+                <pre><span style="color: #f49e1b">如果OK为True就显示</span></pre>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="../js/vueapp.js"></script>
+</html>
