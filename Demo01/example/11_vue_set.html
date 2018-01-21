@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue.set全局操作</title>
+    <script src="../assets/js/vue.js" type="text/javascript"></script>
+</head>
+<body>
+<h1>Vue.set全局操作</h1>
+<hr>
+<div id="app">
+    <p>当使用数组下标来改变数组内的值时，vue是检测不到的，此时就要用至Vue.set来解决</p>
+    <p>
+        <div v-text="count"></div>
+        <ul>
+            <li v-for="item in arr" v-text="item"></li>
+        </ul>
+    </p>
+</div>
+<div>
+    <button onclick="add()">Add</button>
+</div>
+
+
+<script type="text/javascript">
+    
+    function add() {
+//        outData.count++; //当有这句代码时，下面的设置会成功。否则通过下标访问数组的方式就不行了。
+//        outData.arr[1]='gaoyanbin';
+        Vue.set(outData.arr,1,'gaoyanbin'); //而使用Vue.set时就可以了。
+    }
+
+    
+    outData = {
+        count:10,
+        arr:['aaa','bbb','ccc'],
+    }
+
+    app = new Vue({
+        el:'#app',
+        data:outData, //使用了外部数据，也就是在app作用域外的数据源
+    })
+</script>
+</body>
+</html>

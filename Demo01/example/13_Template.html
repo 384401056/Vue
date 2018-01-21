@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue的生命周期</title>
+    <script src="../assets/js/vue.js" type="text/javascript"></script>
+</head>
+<body>
+<h1>Vue Template的三种写法</h1>
+<hr>
+<h2>在Vue的构造器中创建模板</h2>
+<div id="app1"></div>
+<hr>
+
+<h2>在Html标签中创建模板</h2>
+<template id="temp">
+    <h3 style="color: #f4862e">我是一个在Html标签中创建的Template模板</h3>
+</template>
+
+<div id="app2"></div>
+<hr>
+
+<h2>在Script标签中创建模板</h2>
+<script type="x-template" id="jsTemp">
+    <h3 style="color: #31d995">我是一个在Script标签中创建的Template模板</h3>
+</script>
+
+<div id="app3"></div>
+<hr>
+
+<script type="text/javascript">
+    app1 = new Vue({
+        el:'#app1',
+        data:{
+            message:'hello world!',
+        },
+        template:`<h3 style="color: #ff1493">我是一个在Vue构造器中创建的Template模板</h3>`,
+    });
+
+    app2 = new Vue({
+        el:'#app2',
+        data:{
+            message:'hello world!',
+        },
+        template:'#temp'
+    })
+
+    app3 = new Vue({
+        el:'#app3',
+        data:{
+            message:'hello world!',
+        },
+        template:'#jsTemp'
+    })
+</script>
+
+</body>
+</html>

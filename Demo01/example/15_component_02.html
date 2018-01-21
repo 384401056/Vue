@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../assets/js/vue.js" type="text/javascript"></script>
+</head>
+<body>
+<h1>Vue的Component 组件02 属性设置 </h1>
+<hr>
+<div id="app">
+    <mycompo where="China" who="gaoyanbin" what="write code"></mycompo>
+    <hr>
+    <h3>动态绑定属性值</h3>
+    <mycompo :where="where" :who="who" :what="what"></mycompo>
+</div>
+
+
+
+<script type="text/javascript">
+    app = new Vue({
+        el:'#app',
+        data:{
+            where:'USA',
+            who:'Kings Man',
+            what:'fighting',
+        },
+        components:{
+            'mycompo':{
+                template:`
+                    <div style="color: #ff8c12">
+                        <h3>我是一个有属性的局部组件</h3>
+                        <p><h4>where={{where}}</h4></p>
+                        <p><h4>who={{who}}</h4></p>
+                        <p><h4>what={{what}}</h4></p>
+                    </div>`,
+                props:['where', 'who', 'what'], //注册组件的属性。
+            }
+        }
+    })
+</script>
+</body>
+</html>

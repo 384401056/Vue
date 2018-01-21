@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../assets/js/vue.js" type="text/javascript"></script>
+</head>
+<body>
+    <h1>v-mode实例</h1>
+    <hr>
+    <div id="app">
+        <p><div v-text="message" style="font-size: xx-large;color: #f4862e"></div></p>
+        <h2>输入框与文本框数据绑定</h2>
+        <p>v-model: <input type="text" v-model="message"></p>
+        <p>v-model.lazy: <input type="text" v-model.lazy="message"></p>
+        <p>v-model.number: <input type="text" v-model.number="message"></p>
+        <p>v-model.trim: <input type="text" v-model.trim="message"></p>
+        <h2>文本域与文本框数据绑定</h2>
+        <textarea cols="40" rows="8" v-model="message"></textarea>
+        <hr>
+        <h2>复选框绑定文本</h2>
+        <input type="checkbox" id="ck0" v-model="isTrue" value="足球">
+        <label for="ck0" style="color: #ff1493; font-size: x-large">{{isTrue}}</label>
+        <h2>复选框绑定数组</h2>
+        <input type="checkbox" id="ck1" v-model="web_names" value="足球">
+        <label for="ck1" style="color: #ff1493; font-size: x-large">足球</label>
+        <input type="checkbox" id="ck2" v-model="web_names" value="篮球">
+        <label for="ck2" style="color: #ff1493; font-size: x-large">篮球</label>
+        <input type="checkbox" id="ck3" v-model="web_names" value="乒乓球">
+        <label for="ck3" style="color: #ff1493; font-size: x-large">乒乓球</label>
+        <input type="checkbox" id="ck4" v-model="web_names" value="羽毛球">
+        <label for="ck4" style="color: #ff1493; font-size: x-large">羽毛球</label>
+        <p><span v-text="web_names"></span></p>
+        <hr>
+        <h2>单选框数据绑定</h2>
+        <p>
+            <input type="radio" id="sex1" value="男" v-model="sex">
+            <label for="sex1" style="color: #ff1493; font-size: x-large" >男</label>
+            <input type="radio" id="sex2" value="女" v-model="sex">
+            <label for="sex2" style="color: #ff1493; font-size: x-large" >女</label>
+            <input type="radio" id="sex3" value="不男不女" v-model="sex">
+            <label for="sex2" style="color: #ff1493; font-size: x-large" >不男不女</label>
+        </p>
+        <p>你选择是性别是：<span>{{sex}}</span></p>
+        <hr>
+    </div>
+
+
+    <script type="text/javascript">
+        app = new Vue({
+            el:'#app',
+            data:{
+                message:'Hello World!',
+                isTrue:true,
+                web_names:[],
+                sex:'男',
+            }
+        })
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue.extend 扩展实例构造器</title>
+    <script src="../assets/js/vue.js" type="text/javascript"></script>
+</head>
+<body>
+<h1>Vue.extend 扩展实例构造器</h1>
+<div id="app">
+    <h2>使用自定义的标签</h2>
+    <gaoyanbin></gaoyanbin>
+    <hr>
+    <h2>使用DIV</h2>
+    <div id='myurl'></div>
+    <hr>
+</div>
+<hr>
+
+<script type="text/javascript">
+    var authorURL = Vue.extend({
+        template:"<p><a :href='authorURL'>{{urlName}}</a></p>",
+        data:function () {
+            return{
+                urlName:'MyURL',
+                authorURL:'http://www.baidu.com',
+            }
+        }
+    });
+
+
+    new authorURL().$mount('gaoyanbin') //使用自定义的标签
+    new authorURL().$mount('#myurl') //使用DIV
+
+    app = new Vue({
+       el:'#app',
+       data:{
+
+       },
+       methods:{
+
+       }
+    })
+</script>
+</body>
+</html>
