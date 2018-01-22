@@ -6,6 +6,18 @@
     <script src="../assets/js/vue.js" type="text/javascript"></script>
 </head>
 <body>
-
+    <div id="app">
+        {{ message }}
+    </div>
 </body>
+
+<script>
+    app = new Vue({
+        el:'#app',
+        data:{
+            message:'hello Vue!'
+        }
+    });
+</script>
+
 </html>
