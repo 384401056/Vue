@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../assets/js/vue.js" type="text/javascript"></script>
+</head>
+<body>
+<h1>Vue的Component 组件03 组件的父子关系 </h1>
+<hr>
+<div id="app">
+    <h2>在Vue构造器外创建的局部组件</h2>
+    <mycompo></mycompo>
+</div>
+<hr>
+<div id="app2">
+    <h3>父子组件</h3>
+    <compof></compof>
+</div>
+
+<script type="text/javascript">
+    var mycomponent = {
+        template:`<h3 style="color: #ff1493">我是一个在Vue构造器外创建的局部组件</h3>`
+    };
+
+    var componentFather = {
+        template:`
+            <div style="background-color: #68f0dd;width: 400px">
+                <h3 style="color: #ff8c12">我是一个父级组件</h3>
+                <mycompo></mycompo>
+            </div>
+        `,
+        components:{
+            'mycompo':mycomponent //定义在此组件中要使用的子组件
+        }
+    }
+
+    app = new Vue({
+        el:'#app',
+        data:{
+            where:'USA',
+            who:'Kings Man',
+            what:'fighting',
+        },
+        components:{
+            'mycompo':mycomponent
+        }
+    });
+
+
+    app2 = new Vue({
+        el:'#app2',
+        components:{
+            'compof':componentFather
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../assets/js/vue.js" type="text/javascript"></script>
+</head>
+<body>
+<h1>Vue的Component 组件01 初识 </h1>
+<hr>
+<div id="app">
+    <h2>全局组件</h2>
+    <mycompo1></mycompo1>
+    <h2>局部组件</h2>
+    <mycompo2></mycompo2>
+</div>
+
+
+
+<script type="text/javascript">
+    //全局组件
+    Vue.component('mycompo1',{
+        template:`<h3 style="color: #ff1493">我是一个全局的Component组件</h3>`
+    });
+
+    app = new Vue({
+        el:'#app',
+        components:{
+            'mycompo2':{
+                template:`<h3 style="color: #ff8c12">我是一个在Vue构造器中创建的局部Component组件</h3>`
+            }
+        }
+    })
+</script>
+</body>
+</html>
