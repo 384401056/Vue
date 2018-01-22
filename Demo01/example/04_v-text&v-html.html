@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../assets/js/vue.js" type="text/javascript"></script>
+</head>
+<body>
+    <h3>v-text & v-html 实例</h3>
+    <hr>
+    <div id="app">
+        <!--v-text的功能与{{  }} 功能相同，只是显示更友好，当javascript有问题时，不会显示-->
+        <span>{{ message }}</span> = <span v-text="message"></span><br/>
+        <hr>
+        <span v-text="html"></span><br/>
+        <!--v-html可能引发完全问题，特别是在提交表单的场景中。所以不到万不得以，不要使用。-->
+        <span v-html="html"></span>
+    </div>
+
+    <script type="text/javascript">
+        var app = new Vue({
+            el:'#app',
+            data:{
+                message:'Hello Vuejs',
+                html:"<h1 style='color: red'>Hello Vuejs</h1>",
+            }
+
+        });
+    </script>
+
+</body>
+</html>
