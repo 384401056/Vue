@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../assets/js/vue.js" type="text/javascript"></script>
+</head>
+<body>
+<h1>Vue.extend 中的propsData 选项</h1>
+<hr>
+<div>
+    <myDiv1></myDiv1>
+    <hr>
+    <myDiv2></myDiv2>
+</div>
+
+<script type="text/javascript">
+    var myDiv = Vue.extend({
+        template:`<div style="width:500px; background-color: #f4862e">{{ message }}<span style="color: #19ff1f">{{ num }}</span></div>`,
+        data:function(){
+            return{
+                message:'这是Vue.extend内部的值 '
+            }
+        },
+        props:['num'] //声明从处部传入的值
+    });
+
+    new myDiv().$mount('myDiv1')
+    new myDiv({propsData:{num:'这是从Vue.extned外传入的值'}}).$mount('myDiv2')
+
+</script>
+</body>
+</html>

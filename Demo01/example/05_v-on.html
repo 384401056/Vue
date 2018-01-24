@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../assets/js/vue.js" type="text/javascript"></script>
+</head>
+<body>
+    <h3>v-on 实例</h3>
+    <hr>
+    <div id="app">
+        <div>分数：<span v-text="fenshu"></span></div><br/>
+        <button v-on:click="jiafen">加分</button>
+        <button @click="jianfen">减分</button> <!-- @click 等同于 v-on:click -->
+        <br/>
+        <!--按回车的事件.注意keyup和keydown的区别,可用键盘码代替enter-->
+        <!--<input type="text" v-on:keydown.enter="onEnter" v-model="fenshu2"/> -->
+        <!--<input type="text" v-on:keydown.13="onEnter" v-model="fenshu2"/> -->
+        <input type="text" v-on:keyup.13="onEnter" v-model="fenshu2"/>
+    </div>
+
+    <script type="text/javascript">
+        var app = new Vue({
+            el:'#app',
+            data:{
+                fenshu:0,
+                fenshu2:0,
+            },
+            /*方法*/
+            methods:{
+
+                /**
+                 * 加分方法
+                 */
+                jiafen:function(){
+                    this.fenshu++;
+                },
+
+                /**
+                 * 减分方法
+                 */
+                jianfen:function(){
+                    if (this.fenshu>0) {
+                        this.fenshu--;
+                    }
+                },
+                /**
+                 *
+                 */
+                onEnter:function(){
+                    this.fenshu = this.fenshu + parseInt(this.fenshu2); //parseInt将字符转为int
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
