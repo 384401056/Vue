@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../assets/js/vue.js" type="text/javascript"></script>
+</head>
+<body>
+<h1>Vue 中的computed 选项</h1>
+<hr>
+<h4>
+    computed的作用是对原数据进行改造输出。包括：格式编辑、大小写转换、顺序重排、添加符号。并且不会污染原始数据。
+</h4>
+<div id="app">
+    <p>原始数据：{{ price }}</p>
+    <p>改造后的数据：<span style="color: #f07d33">{{ newPrice }}</span></p>
+    <hr>
+    <p>原始数据：</p>
+    <ol>
+        <li v-for="item in mylist">{{ item }}</li>
+    </ol>
+    <p>改造后的数据：</p>
+    <ol style="color: #f07d33">
+        <li v-for="item in reverList">{{ item }}</li>
+    </ol>
+</div>
+
+<script type="text/javascript">
+    var mylist = [
+        {title:'title1', date:'2018/1/21'},
+        {title:'title2', date:'2018/1/22'},
+        {title:'title3', date:'2018/1/23'},
+    ]
+
+
+    app = new Vue({
+        el:'#app',
+        data:{
+            price:1000,
+            mylist:mylist,
+        },
+        computed:{
+            newPrice:function(){
+                return '$'+this.price+'元';
+            },
+            reverList:function(){
+                return this.mylist.reverse()
+            }
+        }
+    });
+
+</script>
+</body>
+</html>
