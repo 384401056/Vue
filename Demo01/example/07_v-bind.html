@@ -6,7 +6,7 @@
     <script src="../assets/js/vue.js" type="text/javascript"></script>
 </head>
 <body>
-    <h1>v-bind实例</h1>
+    <h1>v-bind 属性绑定</h1>
     <hr>
     <div id="app">
         <h2>HTML标签属性绑定</h2>
@@ -25,13 +25,16 @@
         </p>
         <hr>
         <h2>HTML标签style的绑定, v-bind和v-model实现联动</h2>
-        <!--在style中font-size 在vue中要改成fontSize, 因为vue不支持-的写法-->
-        <p><div :style="{color:mycolor,fontSize:myfontsize}">style属性的绑定</div></p>
-        <p>color: <input type="text" :value="mycolor" v-model="mycolor"></p>
-        <p>fontsize: <input type="text" :value="myfontsize" v-model="myfontsize"></p>
-        <hr>
-        <p><div :style="myStyle">绑定style对象</div></p>
+        在style中font-size 在vue中要改成fontSize, 因为vue不支持-的写法
+        <!--<p><div :style="{color:mycolor,fontSize:myfontsize}">style属性的绑定</div></p>-->
+        <!--<p>color: <input type="text" :value="mycolor" v-model="mycolor"></p>-->
+        <!--<p>fontsize: <input type="text" :value="myfontsize" v-model="myfontsize"></p>-->
+
+        <p><div :style="myStyle">style属性的绑定</div></p>
         <p>style对象内容：<span>{{myStyle}}</span></p>
+
+        <p><div :style="[myStyle,myStyle2]">style属性的数组绑定</div></p>
+        <p>style对象内容：<span>{{myStyle}}-{{ myStyle2 }}</span></p>
         <hr>
     </div>
 
@@ -67,7 +70,11 @@
                     //background-color在Vue代码中要修改成backgroundColor,所有带-的都要进行转换.
                     backgroundColor:'#ff8c12',
                     width:'300px',
-                    fontSize:'40px',
+                    fontSize:'30px',
+                },
+                myStyle2:{
+                    //background-color在Vue代码中要修改成backgroundColor,所有带-的都要进行转换.
+                    color:'#272ef0'
                 }
             }
         })
