@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../assets/js/vue.js" type="text/javascript"></script>
+</head>
+<body>
+<h2>Vue 中的过滤器</h2>
+<hr>
+<div id="app">
+    <p>{{num}} 过滤后 :<span style="color: #f4862e; margin-left: 10px"> {{num | addZero}}</span><span
+            style="margin-left: 20px;color: #26a16b">#如果值小于10，则在值前加0</span></p>
+    <p>{{num2}} 过滤后 :<span style="color: #f4862e; margin-left: 10px"> {{num2 | number(3)}}</span><span
+            style="margin-left: 20px;color: #26a16b">#通过javascript中的toFixed()实现，是四舍五入</span></p>
+    <p>{{num2}} 过滤后 :<span style="color: #f4862e; margin-left: 10px"> {{num2 | number2(4)}}</span><span
+            style="margin-left: 20px;color: #26a16b">#通过自定义局部过滤器方法实现保留小数，不是四舍五入</span></p>
+    <p>{{currentTime}} 过滤后 :<span style="color: #f4862e; margin-left: 10px"> {{currentTime | dataTime}}</span><span
+            style="margin-left: 20px;color: #26a16b">#通过自定义局部过滤器方法实现日期格式转换</span></p>
+</div>
+</body>
+
+<script>
+    /**
+     * 全局过滤器
+     * 如果值小于10，则在值前加0
+     */
+    Vue.filter('addZero', function (value) {
+        return value < 10 ? '0' + value : value;
+    });
+
+    /**
+     * 全局过滤器
+     * 保留n位小数，但是在不同浏览器上有问题。
+     */
+    Vue.filter('number', function (value, n) {
+        return value.toFixed(n)
+    });
+
+    app = new Vue({
+        el: '#app',
+        data: {
+            num: 1,
+            num2: 243.999990,
+            currentTime: Date.now()
+        },
+        /**
+         * 局部过滤器
+         */
+        filters: {
+            'dataTime':function (value) {
+                let d = new Date(value)
+                return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+            },
+            'number2':function (value, n) {
+                let arr = String(value).split('.')
+                if (arr[1].length < n) {
+                    return value
+                } else {
+                    let p = arr[1].substring(0, n)
+                    return parseFloat(arr[0] + '.' + p)
+                }
+            }
+        }
+    })
+    ;
+</script>
+
+</html>

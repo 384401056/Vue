@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../assets/js/vue.js" type="text/javascript"></script>
+    <script src="../assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
+    <script src="../assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <script src="../assets/js/axios.min.js" type="text/javascript"></script>
+</head>
+<body>
+<h2>Vue 发送AJAX请求</h2>
+<h4>Vue本身不支持发送ajax请求，需要使用axios等插件来实现</h4>
+<hr>
+<div id="app">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <p>
+                <button class="btn btn-primary" @click="sendGet()">发送ajax Get请求</button>
+            </p>
+            <p>
+                <button class="btn btn-primary" @click="sendGetWithParams()">发送ajax Get请求,带参数</button>
+            </p>
+            <p>
+                <button class="btn btn-primary" @click="sendPost()">发送ajax Post请求</button>
+            </p>
+            <p>
+                <button class="btn btn-primary" @click="sendPostByJquery()">发送ajax Post请求 By JQuery</button>
+            </p>
+        </div>
+    </div>
+</div>
+<hr>
+
+
+<h3>获取指定Github账户信息并显示</h3>
+<div id="app2" style="margin: 20px">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group">
+                <label for="github">GitHub账号：</label>
+                <input type="text" class="form-control" id="github" placeholder="请输入GitHub账号信息" v-model="account">
+            </div>
+            <button @click="getUserInfo()" class="btn btn-primary">获取</button>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <td>id</td><td>{{user.id}}</td>
+                </tr>
+                <tr>
+                    <td>name</td><td>{{user.name}}</td>
+                </tr>
+                <tr>
+                    <td>email</td><td>{{user.email}}</td>
+                </tr>
+                <tr>
+                    <td>created_at</td><td>{{user.created_at}}</td>
+                </tr>
+                <tr>
+                    <td>updated_at</td><td>{{user.updated_at}}</td>
+                </tr>
+            <tr>
+            <td>avatar_url</td><td><img :src="user.avatar_url"></td>
+            </tr>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+    app = new Vue({
+        el: '#app',
+        data: {},
+        methods: {
+            sendGet(){
+                axios({
+                    method: 'get',
+                    url: 'http://127.0.0.1:8000/index',
+                }).then(function (res) {
+                    console.log(res)
+                }).catch(function (error) {
+                    console.log(error);
+                });
+                ;
+            },
+            sendGetWithParams(){
+                axios.get('http://127.0.0.1:8000/index', {
+                    params: {
+                        a1: 'ppp',
+                        a2: 'bbb'
+                    }
+                }).then(function (res) {
+                    console.log(res)
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+
+            /**
+             * 通过axios来发送post请求是有BUG的，如果发送的数据是一个
+             * 键值对是发送不成功的，只有手动拼接成 name=gaoyanbin&age=10&sex=男'这样的形式
+             * 才能发送成功。也就是类似get中带参数的方式。
+             */
+            sendPost(){
+//                axios.post(
+//                        'http://127.0.0.1:8000/index', {
+//                            name:'gaoyanbin',
+//                            age:20,
+//                            sex:'男'
+//                        })
+//                        .then(function (res) {
+//                            console.log(res)
+//                        }).catch(function (error) {
+//                    console.log(error);
+//                });
+                axios.post(
+                        'http://127.0.0.1:8000/index', 'name=gaoyanbin&age=10&sex=男')
+                        .then(function (res) {
+                            console.log(res)
+                        }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+
+            /**
+             * 通过jquery的方式来发送post请求。
+             */
+            sendPostByJquery(){
+                $.post("http://127.0.0.1:8000/index", {name: 'gaoyanbin', age: 22, sex: '男'},
+                        function (data, status, xhr) {
+                            console.log(data);
+                        });
+            }
+
+        }
+    });
+
+    vm = new Vue({
+        el: '#app2',
+        data: {
+            account: '',
+            user: {}
+        },
+        methods: {
+            getUserInfo(){
+                let url = 'https://api.github.com/users/' + this.account;
+                axios.get(url).then(function (res) {
+                    vm.user = res.data;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }
+        }
+    })
+</script>
+
+</html>

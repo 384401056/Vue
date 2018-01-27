@@ -24,6 +24,54 @@
         <button v-on:click="addArr()">向数组中添加元素(点击鼠标时)</button>
         <button v-on:mouseover="addArr()">向数组中添加元素（鼠标经过时）</button>
         <button v-on:dblclick="addArr()">向数组中添加元素（双击鼠标时）</button>
+        <hr>
+        <h4>$event</h4>
+        <button v-on:click="showEvent($event)">$event</button>
+        <hr>
+
+        <h3>事件冒泡</h3>
+        <h4>原生js方式</h4>
+        <div>
+            <div @click="write()" style="background-color: #ff8c12;width: 400px;height: 40px">
+                <div @click="print()" style="background-color: #26a16b;width: 300px;height: 30px">
+                    <button @click="show($event)">原生js方式 阻止事件冒泡</button>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <h4>Vue方式</h4>
+        <div>
+            <div @click="write()" style="background-color: #ff8c12;width: 400px;height: 50px">
+                <div @click="print()" style="background-color: #26a16b;width: 300px;height: 40px">
+                    <button @click.stop="show2()">Vue方式阻止事件冒泡</button>
+                </div>
+            </div>
+        </div>
+        <hr>
+
+        <h3>阻止默认事件</h3>
+        <h4>原生js方式</h4>
+        <div>
+            <a href="http://www.baidu.com" @click="link($event)">原生js方式阻止默认事件</a>
+        </div>
+        <br/>
+        <h4>Vue方式</h4>
+        <div>
+            <a href="http://www.baidu.com" @click.prevent="link2()">原生js方式阻止默认事件</a>
+        </div>
+    </div>
+    <hr>
+    <div id="app2">
+        <h3>键盘事件</h3>
+        <div>
+            <p>原生js方式: <input type="text" @keydown="keyd($event)"></p>
+            <p>Vue方式: <input type="text" @keydown.enter="keyd2()"></p>
+        </div>
+        <hr>
+        <div>
+            <!--因为F1默认是打开帮助，所以加上prevent后就不会再打开了。-->
+            <p>自定义键位另名: <input type="text" @keydown.f1.prevent="keyd3()"></p>
+        </div>
     </div>
 
     <script type="text/javascript">
@@ -41,7 +89,7 @@
                     this.arr.push(100);
                 },
 
-                jiafen:function(){
+                jiafen(){
                     this.fenshu++;
                 },
 
@@ -50,14 +98,55 @@
                         this.fenshu--;
                     }
                 },
-                /**
-                 *
-                 */
-                onEnter:function(){
+                onEnter(){
                     this.fenshu = this.fenshu + parseInt(this.fenshu2); //parseInt将字符转为int
+                },
+                showEvent(event){
+                    console.log(event)
+                },
+                show(e){
+                    e.stopPropagation(); //阻止事件冒泡,js原生方式
+                    console.log('11111')
+                },
+                show2(){
+                    console.log('11111')
+                },
+                print(e){
+                    console.log('22222')
+                },
+                write(e){
+                    console.log('33333')
+                },
+                link(e){
+//                    e.preventDefault() //阻止默认事件
+                    console.log('----link-----')
+                },
+                link2(e){
+                    console.log('----link2-----')
                 }
+
             }
         });
+
+        //自定义按键别名
+        Vue.config.keyCodes={
+            f1:112,
+        }
+
+        let vm = new Vue({
+            el:'#app2',
+            methods:{
+                keyd(e){
+                    console.log(e.keyCode)
+                },
+                keyd2(){
+                    console.log('你按下了回车')
+                },
+                keyd3(){
+                    console.log('你按下了F1')
+                }
+            }
+        })
     </script>
 
 </body>
