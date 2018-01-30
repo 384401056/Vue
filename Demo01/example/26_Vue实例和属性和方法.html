@@ -77,6 +77,25 @@
         <button @click="updateName1()" class="btn btn-primary">更新数据1</button>
         <button @click="updateName2()" class="btn btn-primary">更新数据2</button>
     </div>
+
+    <hr>
+    <div id="app3" class="panel-body">
+        <h4>vm.$set 和 vm.$delete)</h4>
+        <h5 class="text-danger">
+            添加和删除一个对象的属性.<br/>
+            格式：vm.$set(object, key ,value)<br/>
+            格式：vm.$delete(object, key)<br/>
+        </h5>
+        <hr>
+        <div class="panel-body">
+            <p>姓名：{{user.name}}</p>
+            <p>年龄：{{user.age}}</p>
+        </div>
+        <button @click="addAttr1()" class="btn btn-primary">普通方式添加属性</button>
+        <h5 class="text-danger">点击此按钮只会打印出添加的属性，页面不会刷新</h5>
+        <button @click="addAttr2()" class="btn btn-primary">vm.$set方式添加属性</button>
+        <h5 class="text-danger">点击此按钮会添加属性，并刷新页面</h5>
+    </div>
 </div>
 
 </body>
@@ -146,6 +165,35 @@
                     console.log(vm2.$refs.el2.textContent)
                 })
             }
+        }
+    })
+
+    let vm3 = new Vue({
+        el:'#app3',
+        data:{
+            user:{
+                name:'布鲁斯 威利',
+            }
+        },
+        methods:{
+            //添加属性（普通方式）
+            addAttr1(){
+                this.user.age = 20;
+                console.log(this.user)
+            },
+            //添加属性（vm.$set方式）
+            addAttr2(){
+//                this.$set(this.user, 'age', 200);
+                if(this.user.age){
+                    //先判断是否有age属性，如果没有再添加.
+                    //如果通过普通方式
+                    this.user.age++
+                }else{
+                    Vue.set(this.user, 'age', 200);//也可用全局方法。
+                }
+                console.log(this.user)
+
+            },
         }
     })
 
