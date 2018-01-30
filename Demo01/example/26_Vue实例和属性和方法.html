@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../assets/js/vue.js" type="text/javascript"></script>
+    <script src="../assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
+    <script src="../assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+</head>
+<body style="font-size: 16px">
+<h2>Vue实例和属性和方法</h2>
+<hr>
+<h3>属性</h3>
+<div id="app">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h4>vm.属性值</h4>
+            <h5>获取data、computed选项中的属性</h5>
+            <button @click="getValue()" class="btn btn-primary">通过Vuew实例获取属性值</button>
+
+            <hr>
+            <h4>vm.$el</h4>
+            <h5>获取实例关联的元素,获得DOM对象,可对其进行DOM属性地修改</h5>
+            <p class="text-info">vm.$el: <br/><span>{{vm_el}}</span></p>
+            <button @click="getEl()" class="btn btn-primary">通过Vue实例获取关联元素</button>
+
+            <hr>
+            <h4>vm.$data</h4>
+            <h5>获取实例的数据对象data</h5>
+            <p class="text-info">vm.$data: <br/> <span class="text-warning">{{vm_data}}</span></p>
+            <button @click="getData()" class="btn btn-primary">通过Vue实例获取关联元素</button>
+
+            <hr>
+            <h4>vm.$options</h4>
+            <h5>获取实例的所有选项</h5>
+            <p class="text-info">vm.$options: <br/> <span class="text-warning">{{vm_options}}</span></p>
+            <button @click="getOptions()" class="btn btn-primary">获取实例的所有选项(包括自定义的)</button>
+
+
+            <hr>
+            <span ref="aaa" class="text-primary"></span>
+            <span ref="bbb" class="text-info"></span>
+            <span ref="ccc"></span>
+            <span ref="ddd"></span>
+            <h4>vm.$refs</h4>
+            <h5>获取定义了ref属性的DOM元素</h5>
+            <p class="text-info">vm.$refs: <br/> <span class="text-warning">{{vm_refs}}</span></p>
+            <button @click="getRefs()" class="btn btn-primary">获取某个或者全部,定义了ref属性的DOM元素</button>
+        </div>
+    </div>
+    <hr>
+</div>
+
+<h3>方法</h3>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <h4>vm.$mount()</h4>
+        <h5>手动挂载Vue实例</h5>
+        <p id="myel" class="text-info">{{message}}</p>
+        <button onclick="mountVue()" class="btn btn-primary">手动挂载Vue实例</button>
+        <hr>
+        <h4>vm.$destroy()</h4>
+        <h5>销毁Vue实例,但已经绑定的数据还会存在。</h5>
+    </div>
+
+    <hr>
+    <div id="app2" class="panel-body">
+        <h4>vm.$nextTick([callback])</h4>
+        <h5 class="text-danger">
+            将回调延迟到下一次DOM更新之后再执行, 当点击更新数据1按钮后，会发现页面上的值已经改变了，但是打印
+            的值没变。原因是，当打印语句执行完时，其实Vue的DOM更新过程还没结束，所以就出现了这种情况。
+            因此，vm.$nextTick()就有了它的用处。在vm.$nextTick回调方法中的代码，一定会在DOM更新过程全部完成后
+            才执行。如更新数据2按钮的效果。在平时的开发中，一般在修改数据后使用$nextTick()以便获取更新后的DOM
+        </h5>
+        <p ref="el2" class="text-info">姓名：{{name}}</p>
+        <button @click="updateName1()" class="btn btn-primary">更新数据1</button>
+        <button @click="updateName2()" class="btn btn-primary">更新数据2</button>
+    </div>
+</div>
+
+</body>
+
+<script>
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            name: 'gaoyanbin',
+            level: 100,
+            a: 'aaaa',
+            b: 32324,
+            vm_el: '',
+            vm_data: {},
+            vm_options: {},
+            vm_refs: {},
+        },
+        computed: {
+            name2: function () {
+                return this.name + ' kkk'
+            },
+        },
+        methods: {
+            getValue(){
+                console.log('vm.name:' + vm.name)
+                console.log('vm.name2:' + vm.name2)
+            },
+            getEl(){
+                this.vm_el = ''
+                this.vm_el = String(vm.$el);
+                console.log(vm.$el);
+            },
+            getData(){
+                console.log(vm.$data)
+                this.vm_data = {}
+                this.vm_data = JSON.stringify(vm.$data)
+            },
+            getOptions(){
+                console.log(vm.$options)
+                this.vm_options = {}
+                this.vm_options = JSON.stringify(vm.$options)
+            },
+            getRefs(){
+                console.log(vm.$refs)
+                this.vm_refs = {}
+//                this.vm_refs = JSON.stringify(vm.$refs.aaa)//获取某个
+                this.vm_refs = JSON.stringify(vm.$refs) //获取全部
+            }
+        }
+    });
+
+    let vm2 = new Vue({
+        el:'#app2',
+        data:{
+            name:'尼古拉斯',
+        },
+        methods:{
+            updateName1(){
+                //修改数据,并立即打印<p>元素中的值
+                this.name = '莱奥纳多'
+                console.log(vm2.$refs.el2.textContent)
+            },
+            updateName2(){
+                //修改数据,并在DOM更新完毕后再执行打印
+                this.name = '莱奥纳多'
+                vm2.$nextTick(function () {
+                    console.log(vm2.$refs.el2.textContent)
+                })
+            }
+        }
+    })
+
+    function mountVue() {
+        new Vue({
+            data:{
+                message:"这是一个手动挂载的Vue实例中的data"
+            }
+        }).$mount('#myel')
+    }
+
+</script>
+
+</html>

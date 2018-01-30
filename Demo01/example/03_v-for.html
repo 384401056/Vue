@@ -20,6 +20,13 @@
                 <div>{{ index+1 }}: {{ student.name }}-{{ student.age }}</div>
             </li>
         </ul>
+        <hr>
+        <ul>
+            <!--循环集合-->
+            <li v-for="(value,key) in user">
+                <div>{{ key }}: {{ value }}</div>
+            </li>
+        </ul>
     </div>
     <hr>
 
@@ -33,7 +40,8 @@
                     {name:'Kims', age:52},
                     {name:'Loing', age:32},
                     {name:'Mina', age:33},
-                ]
+                ],
+                user:{name:'JamsBand', age:'20',sex:'男'}
             },
             /*数据处理*/
             computed:{

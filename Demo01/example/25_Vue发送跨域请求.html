@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../assets/js/vue.js" type="text/javascript"></script>
+    <script src="../assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
+    <script src="../assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <script src="../assets/js/axios.min.js" type="text/javascript"></script>
+    <script src="../assets/js/vue-resource.min.js" type="text/javascript"></script>
+</head>
+<body>
+<h2>Vue 发送跨域请求</h2>
+<h4>Vue本身不支持发送跨域请求，需要使用vue-resource插件来实现</h4>
+<hr>
+<div id="app">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <input type="text" class="form-control" placeholder="输入查询条件" v-model="qureyStr1"><br/>
+            <button class="btn btn-primary" @click="sendJsonp()">发送Jsonp请求 360搜索</button><br/>
+        </div>
+    </div>
+    <h3></h3>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <ul class="list-group">
+                <li class="list-group-item" v-for="item in qureyArr1">{{item}}</li>
+            </ul>
+        </div>
+    </div>
+    <hr>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <input type="text" class="form-control" placeholder="输入查询条件" v-model="qureyStr2"><br/>
+            <button class="btn btn-primary" @click="sendJsonp2()">发送Jsonp请求 百度搜索</button><br/>
+        </div>
+    </div>
+    <h3></h3>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <ul class="list-group">
+                <li class="list-group-item" v-for="item in qureyArr2">{{item}}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+    app = new Vue({
+        el: '#app',
+        data: {
+            qureyStr1:'',
+            qureyStr2:'',
+            qureyArr1:[],
+            qureyArr2:[],
+        },
+        methods:{
+            sendJsonp(){
+                if (this.qureyStr1 !== '') {
+                    url = 'https://sug.so.360.cn/suggest'
+                    this.$http.jsonp(url, {
+                        params: {
+                            word: this.qureyStr1,
+                        }
+                    }).then(function (req) {
+                        this.qureyArr1 = req.data.s;
+                        console.log(req.data.s);
+                    })
+                }
+            },
+            sendJsonp2(){
+                if (this.qureyStr2 !== '') {
+                    url = 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su';
+                    this.$http.jsonp(url, {
+                        params: {
+                            wd: this.qureyStr2,
+                        },
+                        jsonp:'cb' //百度使用的jsonp参数名为cb, 所以要进行修改。
+                    }).then(function (req) {
+                        this.qureyArr2 = req.data.s;
+                        console.log(req.data.s);
+                    })
+                }
+            }
+        }
+    })
+
+</script>
+
+</html>
