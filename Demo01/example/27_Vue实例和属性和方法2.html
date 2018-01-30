@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../assets/js/vue.js" type="text/javascript"></script>
+    <script src="../assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
+    <script src="../assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+</head>
+<body style="font-size: 16px">
+<h2>Vue实例和属性和方法</h2>
+<hr>
+<h3>方法</h3>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <h4>vm.$mount()</h4>
+        <h5>手动挂载Vue实例</h5>
+        <p id="myel" class="text-info">{{message}}</p>
+        <button onclick="mountVue()" class="btn btn-primary">手动挂载Vue实例</button>
+        <hr>
+        <h4>vm.$destroy()</h4>
+        <h5>销毁Vue实例,但已经绑定的数据还会存在。</h5>
+    </div>
+
+    <hr>
+    <div id="app2" class="panel-body">
+        <h4>vm.$nextTick([callback])</h4>
+        <h5 class="text-danger">
+            将回调延迟到下一次DOM更新之后再执行, 当点击更新数据1按钮后，会发现页面上的值已经改变了，但是打印
+            的值没变。原因是，当打印语句执行完时，其实Vue的DOM更新过程还没结束，所以就出现了这种情况。
+            因此，vm.$nextTick()就有了它的用处。在vm.$nextTick回调方法中的代码，一定会在DOM更新过程全部完成后
+            才执行。如更新数据2按钮的效果。在平时的开发中，一般在修改数据后使用$nextTick()以便获取更新后的DOM
+        </h5>
+        <p ref="el2" class="text-info">姓名：{{name}}</p>
+        <button @click="updateName1()" class="btn btn-primary">更新数据1</button>
+        <button @click="updateName2()" class="btn btn-primary">更新数据2</button>
+    </div>
+
+    <hr>
+    <div id="app3" class="panel-body">
+            <h4>vm.$set(object, key, vlaue)</h4>
+            <h4>vm.$delete(object, key)</h4>
+            <h5 class="text-danger">
+                添加和删除对象的属性,对更新显示。
+            </h5>
+            <p class="text-info">姓名：{{ user.name }}</p>
+            <p class="text-info">年龄：{{ user.age }}</p>
+            <button @click="addAttr1()" class="btn btn-primary">普通方式添加</button>
+            <h5>普通方式添加，打印显示已经添加完成，但页面不会刷新</h5>
+            <button @click="addAttr2()" class="btn btn-primary">$set方式添加</button>
+            <h5>$set方式添加，页面会刷新.如果对象已经存在此属性，那$set也不会刷新页面,只会修改数据。</h5>
+
+            <button @click="delAttr()" class="btn btn-primary">$delete方式删除属性</button>
+    </div>
+
+
+    <div id="app4" class="panel-body">
+        <h4>vm.$watch(data, callback[,option]</h4>
+        <h5 class="text-danger">
+            监视数据的变化
+        </h5>
+        <input type="text" class="input-group" v-model="name"><br/>
+        <p class="text-primary">{{ name }}</p>
+        <hr>
+        <input type="text" class="input-group" v-model="user.name"><br/>
+        <p class="text-primary">{{ user.name }}</p>
+
+    </div>
+
+</div>
+
+</body>
+
+<script>
+    let vm2 = new Vue({
+        el:'#app2',
+        data:{
+            name:'尼古拉斯',
+        },
+        methods:{
+            updateName1(){
+                //修改数据,并立即打印<p>元素中的值
+                this.name = '莱奥纳多'
+                console.log(vm2.$refs.el2.textContent)
+            },
+            updateName2(){
+                //修改数据,并在DOM更新完毕后再执行打印
+                this.name = '莱奥纳多'
+                vm2.$nextTick(function () {
+                    console.log(vm2.$refs.el2.textContent)
+                })
+            }
+        }
+    });
+
+    function mountVue() {
+        new Vue({
+            data:{
+                message:"这是一个手动挂载的Vue实例中的data"
+            }
+        }).$mount('#myel')
+    };
+
+    let vm3 = new Vue({
+        el:'#app3',
+        data:{
+            user:{
+                name:'Jams',
+            }
+        },
+        methods:{
+            addAttr1(){
+                this.user.age = 20
+                console.log(this.user)
+            },
+            addAttr2(){
+                this.$set(this.user, 'age', 2000)
+                console.log(this.user)
+            },
+            delAttr(){
+                this.$delete(this.user, 'age')
+                console.log(this.user)
+            }
+        }
+    });
+
+    let vm4 = new Vue({
+        el:'#app4',
+        data:{
+            name:'aaa',
+            user:{
+                name:'Jimas',
+                age:20
+            }
+        },
+        //用Vue选项来实现属性值监视。
+        watch:{
+//            name:function(newVal, oldVal){
+//                console.log(newVal);
+//                console.log(oldVal);
+//                console.log('name 的值被修改了.....')
+//            }
+            //对象的监视.当监视对象时，新值和旧值其实是没有发生变化的，因为对象是引用类型。
+            user:{
+                handler:function(newVal, oldVal){
+                    console.log('user对象被修改了。新值：'+newVal.name+'，旧值：'+oldVal.name)
+                },
+                deep:true //深度监视，当对象中的属性发生变化时也会监视，如没有此选项，则不会进行监视。
+            }
+        }
+    });
+
+    //用Vue实例的方法来实现属性值监视。
+    vm4.$watch('name', function(newVal, oldVal){
+        console.log('name 的值被修改了.新值：'+newVal+'，旧值：'+oldVal)
+    })
+
+
+
+</script>
+
+</html>
