@@ -21,12 +21,32 @@
                <component :is="flag"></component>
             </div>
         </div>
+        <h5 class="text-danger">
+            普通的动态组件切换，是新建组件，再销毁，再新建的过程，比较浪费资源的。如上uid所示，每次都是一个新组件。
+            所以要使用keep-alive，让切换掉的组件留在内存中。再切换回来时，就不用新建组件了。如下所示，就是用了keep-alive
+            的动态切换，uid没有发生变化。
+        </h5>
+        <hr>
+    </div>
+    <div id="app2">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <button @click="changeComp($event)" class="btn btn-primary">compA</button>
+                <button @click="changeComp($event)" class="btn btn-warning">compB</button>
+            </div>
+            <div class="panel-body">
+                <keep-alive>
+                    <!--让component绑定一个变量值，通过修改这个变量来动态的修改显示的组件-->
+                    <component :is="flag"></component>
+                </keep-alive>
+            </div>
+        </div>
     </div>
 
     <template id="tempA">
         <div>
             <h3 class="text-primary">这是自定义组件compA</h3>
-            <h4 class="text-info">uid:{{  }}</h4>
+            <h4 class="text-primary">uid:{{ uid }}</h4>
             <ul>
                 <li v-for="item in arr" class="text-primary">{{ item }}</li>
             </ul>
@@ -36,7 +56,7 @@
     <template id="tempB">
         <div>
             <h3 class="text-warning">这是自定义组件compB</h3>
-            <h4 class="text-info">uid:{{  }}</h4>
+            <h4 class="text-warning">uid:{{ uid }}</h4>
             <ul>
                 <li v-for="item in arr" class="text-warning">{{ item }}</li>
             </ul>
@@ -46,8 +66,46 @@
 </body>
 
 <script>
-    app = new Vue({
+    let app = new Vue({
         el:'#app',
+        data:{
+            flag:'compA'
+        },
+        methods:{
+            changeComp(event){
+                if (event.target.innerText=='compA')
+                    this.flag = 'compA';
+
+                if (event.target.innerText=='compB')
+                    this.flag = 'compB';
+            }
+        },
+        components:{
+            'compA':{
+                template:'#tempA',
+                //组件中的数据要用函数的方式返回。
+                data:function(){
+                    return {
+                        uid: Math.random(), //随机生成的id
+                        arr:['Apple', 'Best', 'Cat']
+                    }
+                }
+            },
+            'compB':{
+                template:'#tempB',
+                //组件中的数据要用函数的方式返回。
+                data:function(){
+                    return {
+                        uid:Math.random(),
+                        arr:['Zore', 'Yellow', 'Xshell']
+                    }
+                }
+            }
+        }
+    });
+
+    let app2 = new Vue({
+        el:'#app2',
         data:{
             flag:'compA'
         },

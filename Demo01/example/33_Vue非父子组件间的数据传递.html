@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>非父子组件间的数据传递</title>
+    <script src="../assets/js/vue.js" type="text/javascript"></script>
+    <script src="../assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
+    <script src="../assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+</head>
+<body>
+<div id="app">
+    <h2>非父子组件间的数据传递</h2>
+    <hr>
+    <h5>非父子组件之间的通信，可以通过一个空的Vue实例做为中央事件总线（事件中心），用它来触发发送数据和监听接收数据。</h5>
+    <hr>
+    <my-a></my-a>
+    <my-b></my-b>
+    <my-c></my-c>
+</div>
+
+
+
+<template id="tempA">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h4>组件A</h4>
+            <h4>姓名：{{ name }}</h4>
+        </div>
+        <div class="panel-body">
+            <button class="btn btn-primary" @click="sendData">将数据发送给C组件</button>
+        </div>
+    </div>
+</template>
+
+<template id="tempB">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h4>组件B</h4>
+            <h4>年龄：{{ age }}</h4>
+        </div>
+        <div class="panel-body">
+            <button class="btn btn-primary">将数据发送给C组件</button>
+        </div>
+    </div>
+</template>
+
+
+<template id="tempC">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h4>组件C</h4>
+            <h4>姓名：{{ name }}</h4>
+            <h4>年龄：{{ age }}</h4>
+        </div>
+    </div>
+</template>
+
+</body>
+
+<script>
+    let Event = new Vue();
+
+    let vm = new Vue({
+        el:'#app',
+        components:{
+            'my-a':{
+                template:'#tempA',
+                data:function(){
+                    return {
+                        name:'Tom'
+                    }
+                },
+                methods:{
+                    sendData(){
+                        Event.$emit('a-send-data', this.name)
+                    }
+                }
+            },
+            'my-b':{
+                template:'#tempB',
+                data:function(){
+                    return {
+                        age:100,
+                    }
+                },
+                methods:{
+                    sendData(){
+                        Event.$emit('b-send-data', this.age)
+                    }
+                }
+            },
+            'my-c':{
+                template:'#tempC',
+                data:function(){
+                    return {
+                        name:'',
+                        age:0
+                    }
+                },
+                mounted:{
+                    Event.$on('a-send-data', function(){
+
+                });
+                }
+            },
+        }
+    });
+</script>
+
+</html>
