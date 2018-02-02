@@ -2,27 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>vue-router路由</title>
-    <script src="../assets/js/vue.js" type="text/javascript"></script>
+    <title>vue-router路由基本用法</title>
     <script src="../assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
     <script src="../assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="../assets/js/vue.js" type="text/javascript"></script>
+    <script src="../assets/js/vue-router.js" type="text/javascript"></script>
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
 </head>
 <body>
-    <h2>vue-router路由</h2>
+    <h2>vue-router路由基本用法</h2>
     <div id="app" class="panel panel-default">
         <div class="panel-body">
-
+            <router-link to="/home">主页</router-link>
+            <router-link to="/news">新闻</router-link>
+        </div>
+        <div class="panel-body">
+            <router-view></router-view>
         </div>
     </div>
 </body>
 
 <script>
-    app = new Vue({
+    //1.定义组件
+    var Home={
+        template:`<h3>我是主页</h3>`
+    };
+    var News={
+        template:`<h3>我是新闻</h3>`
+    };
+
+    //2.配置路由
+    const routes = [
+        {path:'/home', component:Home},
+        {path:'/news', component:News},
+        {path:'*', redirect:'/home'},
+    ];
+
+    //3.创建路由实例
+    const router = new VueRouter({
+        routes:routes,
+//        mode:'history', //url 的显示模式,默认是hash
+    });
+
+    //4.将路由挂载到Vue实例上。
+    let vm = new Vue({
         el:'#app',
+        router:router,
         data:{
 
-        }
+        },
     });
 </script>
 
