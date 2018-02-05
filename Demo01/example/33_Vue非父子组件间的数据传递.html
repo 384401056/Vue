@@ -45,7 +45,6 @@
     </div>
 </template>
 
-
 <template id="tempC">
     <div class="panel panel-default">
         <div class="panel-body">
@@ -59,7 +58,14 @@
 </body>
 
 <script>
-    let Event = new Vue();
+    /**
+     * 创建一个Vue做为事件总线.
+     */
+    let Event = new Vue({
+        data:{
+            event:'this is Event'
+        }
+    });
 
     let vm = new Vue({
         el:'#app',
@@ -73,6 +79,7 @@
                 },
                 methods:{
                     sendData(){
+                        //发送数据到事件a-send-data
                         Event.$emit('a-send-data', this.name)
                     }
                 }
@@ -86,6 +93,7 @@
                 },
                 methods:{
                     sendData(){
+                        //发送数据到事件b-send-data
                         Event.$emit('b-send-data', this.age)
                     }
                 }
@@ -98,15 +106,32 @@
                         age:0
                     }
                 },
-                //当组件挂载完成后，进行总事件的监听。
                 mounted(){
-                    Event.$on('a-send-data',name => {
-                        console.log(this)
-                        this.name = name
+                    /**
+                     * 监听事件，并接收数据。有两种方式，一种ES6的回调，一种是匿名函数
+                     * 这两种方式的区别在于，匿名函数的this被改变了，是指向Event.
+                     * 而EC6的this是不改变this的指向，任然指向tempC组件。
+                     */
+//                    Event.$on('a-send-data', name =>{
+////                        console.log(this) //这里打印的this是compC组件
+//                        this.name = name
+//                    });
+
+                    Event.$on('a-send-data', function(name){
+//                        console.log(this)//此时打印的this会是Event
+                        vm.$children[2].name = name;
                     });
-                    Event.$on('b-send-data',age => {
-                        console.log(this)
-                        this.age = age
+
+                    /**
+                     * 监听事件，并接收数据。
+                     */
+//                    Event.$on('b-send-data', age =>{
+//                        this.age = age
+//                    });
+
+                    Event.$on('b-send-data', function(age){
+//                        console.log(this)//此时打印的this会是Event
+                        vm.$children[2].age = age;
                     });
                 }
             },
