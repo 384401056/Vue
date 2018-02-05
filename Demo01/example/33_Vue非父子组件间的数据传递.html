@@ -40,7 +40,7 @@
             <h4>年龄：{{ age }}</h4>
         </div>
         <div class="panel-body">
-            <button class="btn btn-primary">将数据发送给C组件</button>
+            <button class="btn btn-primary" @click="sendData">将数据发送给C组件</button>
         </div>
     </div>
 </template>
@@ -98,10 +98,16 @@
                         age:0
                     }
                 },
-                mounted:{
-                    Event.$on('a-send-data', function(){
-
-                });
+                //当组件挂载完成后，进行总事件的监听。
+                mounted(){
+                    Event.$on('a-send-data',name => {
+                        console.log(this)
+                        this.name = name
+                    });
+                    Event.$on('b-send-data',age => {
+                        console.log(this)
+                        this.age = age
+                    });
                 }
             },
         }
