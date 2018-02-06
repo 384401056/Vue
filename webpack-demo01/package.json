@@ -4,7 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "dev":"webpack-dev-server --open --hot --port 8800"
+    "dev":"webpack-dev-server --open --hot --port 8080"
   },
   "keywords": [],
   "author": "",

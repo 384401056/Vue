@@ -10,7 +10,6 @@ new Vue({
 	//comments:{
 	//	'my-app':App,
 	//},
-
 	render:function(h){ //使用render函数来渲染组件,等价于components。
 		return h(App);
 	}
