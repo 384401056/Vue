@@ -11,16 +11,22 @@
 <body>
     <div id="app">
         {{ message }}
+        <p>{{name}}</p>
     </div>
 </body>
 
 <script>
-    app = new Vue({
-        el:'#app',
-        data:{
-            message:'hello Vue!'
-        }
-    });
+    window.onload = function () {
+        let app = new Vue({
+            el: '#app',
+            data: {
+                name:"",
+                message: 'hello Vue!'
+            }
+        });
+
+        app.$data.name = "aaa";
+    }
 </script>
 
 </html>

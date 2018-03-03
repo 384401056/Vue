@@ -1,36 +1,73 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+    <div>
+      {{ msg }}
+      <h3>
+        <router-link to="/home">主面</router-link>
+        <router-link to="/news">新闻</router-link>
+      </h3>
+      <p>
+        <button @click="getRquest">App组件，发送的AJAX请求</button>
+      </p>
+    </div>
+    <div>
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
+      <p>
+        <!--为自定义组件加事件-->
+        <my-button @click.native="getRquest"></my-button>
+      </p>
+<!--       <p>
+        {{msg}}
+      </p> -->
+    </div>
+
   </div>
 </template>
 
 <script>
+//axios的引入要在使用axios的组件中。
+//import axios from 'axios'
+
+import MyButton from './components/MyButton.vue'
+
 export default {
   name: 'app',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      // msg: {}
+    }
+  },
+  //子组件
+  components:{
+    'my-button':MyButton
+  },
+
+  methods:{
+//    getRquest(){
+//      axios.get('https://api.github.com/users/384401056')
+//        .then(function(res){
+//          console.log(res.data)
+//        }).then(function(err){
+//        console.log(err)
+//      })
+//    },
+
+    getRquest(){
+      this.$http.get('https://api.github.com/users/384401056')
+        .then(function(res){
+          console.log(res.data)
+          // this.msg = res.data
+        }).then(function(err){
+        console.log(err)
+      })
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
